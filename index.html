@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    
+
+    <div  id="bs-example-navbar-collapse-1">
+      
+      
+            <select id="keyword" onchange="getValue()">
+              <option value="">all</option>
+              <option value="music">music</option>
+              <option value="love">love</option>
+              <option value="idea">idea</option>
+              <option value="weekend">weekend</option>
+              <option value="birthday">birthday</option>
+              <option value="story">story</option>
+              <option value="today">today</option>
+              <option value="job">job</option>
+              <option value="money">money</option>
+              <option value="trump">trump</option>
+            </select>
+          
+   
+  </div>
+
+  
+    
+    <div id="map"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      var map;
+      var keyword1 = 'trump';
+      
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 2,
+          center: new google.maps.LatLng(2.8,-187.3),
+          mapTypeId: 'terrain'
+        });
+      }
+      
+      function getValue() {
+        keyword1 = $('#keyword').find(":selected").val();
+        initMap();
+      }
+
+
+      (function polling(){
+        setTimeout(function () {
+          var jsonText = JSON.stringify(keyword1);
+        $.ajax({
+          url : 'https://dq1csezfpf.execute-api.us-east-2.amazonaws.com/Production/search', 
+          data: 'track='+keyword1,
+          type:'GET',
+          success: function(data){
+             
+              var data_points = [];
+              $.each(data.tweets, function (index, element) {
+                data_points.push();
+                var marker = new google.maps.Marker({position:
+                 new google.maps.LatLng(element.location.lon, element.location.lat), map:map});
+                //custoize marker based on sentiment 
+                if(element.sentiment.toLowerCase()=='positive'){
+                  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+                } else if(element.sentiment.toLowerCase()=='negative'){
+                  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+                } else{
+                  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png')
+                }
+              });
+          },datatype : "json", complete : polling});
+      }, 2000);        
+      })(); 
+      
+      
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdJK0gaxyg-zmBV2GsnFmA61CcPuQak2I&callback=initMap">
+    </script>
+  </body>
+</html>
