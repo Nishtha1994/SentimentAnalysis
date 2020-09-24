@@ -8,23 +8,13 @@ import json
 from datetime import datetime 
 import time 
 
-access_token = "919581457982640128-ullOyY52aA057rB3bBp0P0j7xBrEJFg"
-access_token_secret = "7qnHxbaEE3NnG5XwAxC1IKGBZnPcuAWIWG6Gpl7LiOdpQ"
-consumer_key = "ZSh6PfXZzVZl2iSrwpMXeiNkW"
-consumer_secret = "sc7RXbO7LXocrdnuWfaube6VinvWx6HWKc0IxTvyEoLMnCf2xZ"
-aws_access_key_id = 'AKIAIKLXNT7QJ3F2A5JQ'
-aws_secret_access_key = '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'
+access_token = "919581457982640128-"
+access_token_secret = ""
+consumer_key = ""
+consumer_secret = ""
+aws_access_key_id = ''
+aws_secret_access_key = 'j/'
 
-# host = 'search-tweetmap-t5bf6hbxw46x5ryowaiemq5due.us-east-2.es.amazonaws.com'
-#awsauth = AWS4Auth(aws_access_key_id,aws_secret_access_key,'us-east-2', 'es')
-
-# es = Elasticsearch()
-#     hosts=[{'host': host, 'port': 443}],
-#     http_auth=awsauth,
-#     use_ssl=True,
-#     verify_certs=True,
-#     connection_class=RequestsHttpConnection
-# )
 
 
 sqs = boto3.resource('sqs',region_name='us-east-2',
@@ -69,8 +59,8 @@ if __name__ == '__main__':
         l = StdOutListener()
         stream = Stream(auth, l)
         terms = [
-        'kohli', 'modi'
-        ,'hollywood','bollywood', 'trump', 'them', 'this', 'india'
+        'kohli'
+        ,'hollywood','bollywood', 'them', 'this', 'india'
         ]
         stream.filter(track=terms)
     except Exception as e:

@@ -7,8 +7,8 @@ from elasticsearch import RequestsHttpConnection
 from textblob import TextBlob
 from requests_aws4auth import AWS4Auth
 
-aws_access_key_id = 'AKIAIKLXNT7QJ3F2A5JQ'
-aws_secret_access_key = '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'
+aws_access_key_id = ''
+aws_secret_access_key = 'j/'
 
 sqs = boto3.resource('sqs',region_name='us-east-2',aws_access_key_id=aws_access_key_id,aws_secret_access_key=aws_secret_access_key)
 q = sqs.get_queue_by_name(QueueName='sqs')
@@ -17,7 +17,7 @@ snsClient = boto3.client('sns',region_name="us-east-2",aws_access_key_id=aws_acc
 
 
 
-host = 'search-tweet-pmdufytncggnxaiqxxdluladdq.us-east-2.es.amazonaws.com'
+host = 'search-tweet-.us-east-2.es.amazonaws.com'
 awsauth = AWS4Auth(aws_access_key_id,aws_secret_access_key,'us-east-2', 'es')
 
 es = Elasticsearch(
@@ -69,24 +69,3 @@ for n in range(1000):
     tweet_text=getSQSQueue()
 
 
-
-
-# def calculateParallel(numbers, threads):
-#     # configure the worker pool
-
-#     pool = ThreadPool(processes= 1)
-#     results = pool.map(getSQSQueue,numbers)
-#     pool.close()
-#     pool.join()
-#     return results
-
-
-
-
-# if __name__ == "__main__":
-#     numbers = [1, 2, 3, 4, 5, 6]
-
-#     for n in range(50):
-#         tweet_text = calculateParallel(numbers, 10)
-
-#         print(n)
